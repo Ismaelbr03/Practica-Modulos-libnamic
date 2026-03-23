@@ -1,0 +1,16 @@
+# ==========================================================
+# CONFIGURACIÓN DEL MÓDULO DE INTERFAZ (UI)
+# ==========================================================
+
+# Definición del módulo principal en el sistema de gestión
+- model: ui.uimodule
+  ext_id: asset_lending_ui_module # Identificador único para referenciar este módulo en otros archivos
+  fields:
+    slug: asset-lending           # URL amigable o identificador interno (ej: /apps/asset-lending)
+    name: Gestión de Préstamos    # Título visible que aparecerá en el menú principal o dashboard
+    
+    # Explicación del propósito del módulo para los administradores
+    description: "Módulo para préstamos de portátiles y cámaras"
+    
+    # Estado del módulo: si está en 'true', es visible y está operativo en la plataforma
+    active: true

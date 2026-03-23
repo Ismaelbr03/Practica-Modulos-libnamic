@@ -1,0 +1,103 @@
+# ============================================
+# 1. ACCIONES DEL MÓDULO (Lógica de Navegación)
+# ============================================
+
+# Acción para la gestión de Activos/Recursos
+- model: ui.action
+  ext_id: asset_lending_action_asset
+  fields:
+    name: "Gestión de Recursos"
+    route: asset-lending/assets              # La URL que aparecerá en el navegador
+    model_key: asset_lending.asset           # Vincula esta acción al modelo Asset
+    model_path: "asset_lending/asset"        # Ruta interna del recurso
+    menu: true                               # Indica que esta acción puede ser disparada por un menú
+    context:
+      allowed_group_ext_ids:                 # Control de acceso a nivel de interfaz
+        - asset_lending_group_reader
+        - asset_lending_group_manager
+        - core_group_superadmin
+    # Define qué vistas usar por defecto para el listado y para el formulario de edición
+    default_multi_read_view_id.ext_id: asset_lending_view_asset_list
+    default_single_edit_view_id.ext_id: asset_lending_view_asset_form
+    views.ext_id:                            # Lista de todas las vistas disponibles para esta acción
+      - asset_lending_view_asset_list
+      - asset_lending_view_asset_form
+
+# Acción para la gestión de Préstamos
+- model: ui.action
+  ext_id: asset_lending_action_loan
+  fields:
+    name: "Gestión de Préstamos"
+    route: asset-lending/loans
+    model_key: asset_lending.loan
+    model_path: "asset_lending/loan"
+    menu: true
+    context:
+      allowed_group_ext_ids:
+        - asset_lending_group_reader
+        - asset_lending_group_manager
+        - core_group_superadmin
+    default_multi_read_view_id.ext_id: asset_lending_view_loan_list
+    default_single_edit_view_id.ext_id: asset_lending_view_loan_form
+    views.ext_id:
+      - asset_lending_view_loan_list
+      - asset_lending_view_loan_form
+
+# Acción para la gestión de Ubicaciones
+- model: ui.action
+  ext_id: asset_lending_action_location
+  fields:
+    name: "Gestión de Ubicaciones"
+    route: asset-lending/locations
+    model_key: asset_lending.location
+    model_path: "asset_lending/location"
+    menu: true
+    context:
+      allowed_group_ext_ids:
+        - asset_lending_group_reader
+        - asset_lending_group_manager
+        - core_group_superadmin
+    default_multi_read_view_id.ext_id: asset_lending_view_location_list
+    default_single_edit_view_id.ext_id: asset_lending_view_location_form
+    views.ext_id:
+      - asset_lending_view_location_list
+      - asset_lending_view_location_form
+
+# ============================================
+# 2. MENÚS VISUALES (Estructura del Menú Lateral)
+# ============================================
+
+# Menú Principal: Es la "carpeta" o sección raíz en la barra lateral
+- model: ui.menuitem
+  ext_id: asset_lending_menu_root
+  fields:
+    title: "Gestión de Activos"   # Texto principal del menú
+    icon: "mdi-laptop"           # Icono de Material Design Icons
+    sequence: 50                 # Determina el orden de aparición (mayor número, más abajo)
+
+# Submenú: Recursos (Cuelga de la raíz)
+- model: ui.menuitem
+  ext_id: asset_lending_menu_asset
+  fields:
+    title: "Recursos"  
+    parent_id.ext_id: asset_lending_menu_root # Define la jerarquía
+    action_id.ext_id: asset_lending_action_asset # Qué acción se ejecuta al hacer clic
+    sequence: 10                 # El primero dentro de su grupo
+
+# Submenú: Préstamos
+- model: ui.menuitem
+  ext_id: asset_lending_menu_loan
+  fields:
+    title: "Préstamos" 
+    parent_id.ext_id: asset_lending_menu_root
+    action_id.ext_id: asset_lending_action_loan
+    sequence: 20
+
+# Submenú: Ubicaciones
+- model: ui.menuitem
+  ext_id: asset_lending_menu_location
+  fields:
+    title: "Ubicaciones" 
+    parent_id.ext_id: asset_lending_menu_root
+    action_id.ext_id: asset_lending_action_location
+    sequence: 30

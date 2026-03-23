@@ -1,0 +1,133 @@
+# ============================================
+# 1. VISTAS DE UBICACIONES (Location)
+# ============================================
+
+# Vista de tabla para listar ubicaciones
+- model: ui.view
+  ext_id: asset_lending_view_location_list
+  fields:
+    name: "Ubicaciones - Listado"
+    model_key: asset_lending.location
+    type_id.ext_id: ui.ui_view_type_list
+    definition:
+      columns:
+        - { field: id, label: ID, width: 70 }
+        - { field: code, label: Código }
+        - { field: name, label: Nombre }
+        - { field: is_active, label: Activa, chip: true } # 'chip: true' le da un formato visual de píldora
+      actions: # Botones de cabecera (Globales)
+        - { name: new, type: create, icon: mdi-plus, label: "Agregar" }
+        - { name: edit, type: update, icon: mdi-pencil, label: "Modificar" }
+        - { name: delete, type: delete, icon: mdi-delete, label: "Eliminar" }
+
+# Vista de formulario para crear/editar ubicaciones
+- model: ui.view
+  ext_id: asset_lending_view_location_form
+  fields:
+    name: "Ubicaciones - Formulario"
+    model_key: asset_lending.location
+    type_id.ext_id: ui.ui_view_type_form
+    definition:
+      groups: # Organiza los campos en secciones visuales
+        - label: "Información Principal"
+          fields: [code, name, is_active]
+
+# ============================================
+# 2. VISTAS DE RECURSOS (Asset)
+# ============================================
+
+- model: ui.view
+  ext_id: asset_lending_view_asset_list
+  fields:
+    name: "Recursos - Listado"
+    model_key: asset_lending.asset
+    type_id.ext_id: ui.ui_view_type_list
+    definition:
+      columns:
+        - { field: id, label: ID, width: 70 }
+        - { field: asset_code, label: Código }
+        - { field: name, label: Nombre del recurso }
+        - { field: status, label: Estado, chip: true }
+        - { field: location_id, label: Ubicación }
+      actions:
+        - { name: new, type: create, icon: mdi-plus, label: "Agregar" }
+        - { name: edit, type: update, icon: mdi-pencil, label: "Modificar" }
+        - { name: delete, type: delete, icon: mdi-delete, label: "Eliminar" }
+      row_actions: # Botones que aparecen en CADA fila de la tabla
+        # Llama a la función 'mark_maintenance' del AssetService
+        - key: send_maintenance
+          type: service
+          label: "Enviar a Mantenimiento"
+          icon: mdi-wrench
+          method: mark_maintenance
+          model_key: asset_lending.asset
+          groups: [asset_lending_group_manager, asset_lending_group_tech, core_group_superadmin]
+        # Llama a la función 'release_maintenance' del AssetService
+        - key: release_maintenance
+          type: service
+          label: "Liberar recurso"
+          icon: mdi-check-circle-outline
+          method: release_maintenance
+          model_key: asset_lending.asset
+          groups: [asset_lending_group_manager, asset_lending_group_tech, core_group_superadmin]
+
+- model: ui.view
+  ext_id: asset_lending_view_asset_form
+  fields:
+    name: "Recursos - Formulario"
+    model_key: asset_lending.asset
+    type_id.ext_id: ui.ui_view_type_form
+    definition:
+      groups:
+        - label: "Datos Generales"
+          fields: [asset_code, name, status]
+        - label: "Asignación y Ubicación"
+          fields: [location_id, responsible_user_id]
+        - label: "Notas y Observaciones"
+          fields: [notes]
+
+# ============================================
+# 3. VISTAS DE PRÉSTAMOS (Loan)
+# ============================================
+
+- model: ui.view
+  ext_id: asset_lending_view_loan_list
+  fields:
+    name: "Préstamos - Listado"
+    model_key: asset_lending.loan
+    type_id.ext_id: ui.ui_view_type_list
+    definition:
+      columns:
+        - { field: id, label: ID, width: 70 }
+        - { field: asset_id, label: Recurso }
+        - { field: borrower_user_id, label: Usuario }
+        - { field: status, label: Estado, chip: true }
+        - { field: checkout_at, label: Fecha de entrega }
+      actions:
+        - { name: new, type: create, icon: mdi-plus, label: "Agregar" }
+        - { name: edit, type: update, icon: mdi-pencil, label: "Modificar" }
+        - { name: delete, type: delete, icon: mdi-delete, label: "Eliminar" }
+      row_actions:
+        # Llama a 'return_asset' del AssetLoanService para cerrar el préstamo
+        - key: return_item
+          type: service
+          label: "Registrar devolución"
+          icon: mdi-keyboard-return
+          method: return_asset
+          model_key: asset_lending.loan
+          groups: [asset_lending_group_manager, core_group_superadmin]
+
+- model: ui.view
+  ext_id: asset_lending_view_loan_form
+  fields:
+    name: "Préstamos - Formulario"
+    model_key: asset_lending.loan
+    type_id.ext_id: ui.ui_view_type_form
+    definition:
+      groups:
+        - label: "Datos del Préstamo"
+          fields: [asset_id, borrower_user_id, status]
+        - label: "Fechas del Préstamo"
+          fields: [checkout_at, due_at, returned_at]
+        - label: "Notas y Observaciones"
+          fields: [checkout_note, return_note]

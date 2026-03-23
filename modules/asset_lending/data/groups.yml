@@ -1,0 +1,31 @@
+# ==========================================================
+# DEFINICIÓN DE GRUPOS DE USUARIOS
+# ==========================================================
+
+# 1. Grupo de Lectores (Reader)
+# Este grupo sirve para agrupar a los usuarios que solo necesitan visualizar datos.
+- model: core.group
+  ext_id: asset_lending_group_reader
+  fields:
+    slug: asset_lending_reader     # Identificador único simplificado para el sistema
+    name: "Asset Lending - Lector" # Nombre legible que aparecerá en la interfaz
+
+# 2. Grupo de Gestores (Manager)
+# Este grupo está destinado a los administradores que tienen control total del módulo.
+- model: core.group
+  ext_id: asset_lending_group_manager
+  fields:
+    slug: asset_lending_manager    # Identificador para lógica interna o búsquedas
+    name: "Asset Lending - Gestor" # Nombre descriptivo para el rol administrativo
+
+# ==========================================================
+# RETO OPCIONAL DEL NIVEL 2
+# ==========================================================
+
+# 3. Grupo de Técnicos (Tech)
+# Este grupo permite aplicar reglas específicas (como la edición limitada a la Ubicación 1).
+- model: core.group
+  ext_id: asset_lending_group_tech
+  fields:
+    slug: asset_lending_tech       # El "slug" suele usarse para filtrar en el código
+    name: "Asset Lending - Técnico" # Nombre del perfil especializado

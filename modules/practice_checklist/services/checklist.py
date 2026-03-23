@@ -145,11 +145,10 @@ class PracticeChecklistService(BaseService):
 
 
 # Maneja logica del programa de los items del checklist
-# Maneja logica del programa de los items del checklist
 class PracticeChecklistItemService(BaseService):
     from ..models import PracticeChecklistItem
 
-    # Marca un ítem como hecho o no hecho
+    # Marca un item como hecho o no hecho
     @exposed_action(
         "write",
         groups=["practice_checklist_group_manager", "core_group_superadmin"]
@@ -172,7 +171,7 @@ class PracticeChecklistItemService(BaseService):
         elif id is not None:
             id_list = [id]  # Solo uno
         else:
-            raise HTTPException(400, "No id or ids provided")  # Ninguno error
+            raise HTTPException(400, "No id or ids provided")  # Ningun error
 
         # Buscar todos los items
         items = (
@@ -204,7 +203,7 @@ class PracticeChecklistItemService(BaseService):
         # Confirmar todos los cambios en la base de datos
         self.repo.session.commit()
 
-        # Buscar configuración del cierre automático
+        # Buscar configuracion del cierre automatico
         settings = self.repo.session.query(PracticeChecklistSettings).first()
         if not settings:
             # Si no existe, crear uno con True
@@ -212,7 +211,7 @@ class PracticeChecklistItemService(BaseService):
             self.repo.session.add(settings)
             self.repo.session.commit()
 
-        # Cierre automático si está habilitado
+        # Cierre automatico si esta habilitado
         if settings.auto_close_when_all_done:
 
             # Obtener checklist afectados, sin duplicados
@@ -221,9 +220,9 @@ class PracticeChecklistItemService(BaseService):
             for checklist_id in checklist_ids:
                 checklist = self.repo.session.get(PracticeChecklist, checklist_id)
                 if checklist:
-                    # Refrescar los items para que la sesión tenga datos actualizados
+                    # Refrescar los items para que la sesion tenga datos actualizados
                     self.repo.session.refresh(checklist)
-                    # Verificar si todos los items están hechos
+                    # Verificar si todos los items estan hechos
                     all_done = all(ci.is_done for ci in checklist.items)
                     if all_done:
                         checklist.status = "closed"

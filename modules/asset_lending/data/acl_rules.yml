@@ -1,0 +1,71 @@
+# ==========================================================
+# REGLAS PARA EL LECTOR (Permisos de solo lectura)
+# ==========================================================
+# Esta regla define que cualquier usuario en el grupo 'reader' 
+# puede ver todos los datos de los modelos que empiecen con 'asset_lending'.
+- model: core.aclrule
+  ext_id: asset_lending_acl_reader_all
+  fields:
+    group_id.ext_id: asset_lending_group_reader # Asignado al grupo de Lectores
+    model_key: "asset_lending.*"                # El asterisco indica TODOS los modelos del módulo
+    perm_read: true                             # Solo permite lectura
+
+# ==========================================================
+# REGLAS PARA EL GESTOR (Permisos totales de administración)
+# ==========================================================
+
+# Regla para gestionar las Ubicaciones (Locations)
+- model: core.aclrule
+  ext_id: asset_lending_acl_manager_location
+  fields:
+    group_id.ext_id: asset_lending_group_manager # Asignado al grupo de Gestores
+    model_key: "asset_lending.location"          # Específico para el modelo de ubicaciones
+    perm_read: true                              # Puede ver
+    perm_create: true                            # Puede crear
+    perm_write: true                             # Puede editar
+    perm_delete: true                            # Puede eliminar
+
+# Regla para gestionar los Activos/Recursos (Assets)
+- model: core.aclrule
+  ext_id: asset_lending_acl_manager_asset
+  fields:
+    group_id.ext_id: asset_lending_group_manager
+    model_key: "asset_lending.asset"             # Específico para el modelo de activos
+    perm_read: true
+    perm_create: true
+    perm_write: true
+    perm_delete: true
+
+# Regla para gestionar los Préstamos (Loans)
+- model: core.aclrule
+  ext_id: asset_lending_acl_manager_loan
+  fields:
+    group_id.ext_id: asset_lending_group_manager
+    model_key: "asset_lending.loan"              # Específico para el modelo de préstamos
+    perm_read: true
+    perm_create: true
+    perm_write: true
+    perm_delete: true
+
+# ==========================================================
+# RETO OPCIONAL: REGLAS PARA EL TÉCNICO (Permisos condicionales)
+# ==========================================================
+
+# 1. El técnico puede VER todos los activos sin restricción
+- model: core.aclrule
+  ext_id: asset_lending_acl_tech_asset_read
+  fields:
+    group_id.ext_id: asset_lending_group_tech
+    model_key: "asset_lending.asset"
+    perm_read: true
+
+# 2. El técnico solo puede EDITAR activos si pertenecen a la Ubicación 1
+- model: core.aclrule
+  ext_id: asset_lending_acl_tech_asset_write
+  fields:
+    group_id.ext_id: asset_lending_group_tech
+    model_key: "asset_lending.asset"
+    perm_write: true
+    # Aplicación de un dominio (filtro) para restringir la escritura:
+    domain:
+      - { field: "location_id", operator: "=", value: 1 } # Solo si el ID de ubicación es 1
