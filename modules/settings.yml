@@ -1,4 +1,0 @@
-name: practice_checklist.auto_close_when_all_done
-type: boolean
-default: true
-description: Automatically close checklist when all items are done
