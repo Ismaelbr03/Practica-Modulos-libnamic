@@ -1,0 +1,31 @@
+# Configuración global del módulo Community Events
+
+# 1. Control de lista de espera
+- model: core.setting
+  ext_id: setting_events_allow_waitlist
+  fields:
+    key: community_events.allow_waitlist
+    value: "true"
+    value_type: bool
+    # Activa la gestión de lista de espera cuando un evento alcanza su capacidad máxima.
+    # Si está deshabilitado, se bloquean nuevas inscripciones al completar aforo.
+
+# 2. Capacidad por defecto de los eventos
+- model: core.setting
+  ext_id: setting_events_default_capacity
+  fields:
+    key: community_events.default_capacity
+    value: "50"
+    value_type: int
+    # Define el número máximo de asistentes asignado automáticamente
+    # al crear nuevos eventos, salvo que se especifique manualmente.
+
+# 3. Confirmación automática de inscripciones
+- model: core.setting
+  ext_id: setting_events_auto_confirm
+  fields:
+    key: community_events.auto_confirm
+    value: "false"
+    value_type: bool
+    # Determina si las inscripciones se confirman de forma automática.
+    # Si está desactivado, requerirán validación manual (flujo moderado).

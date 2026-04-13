@@ -1,0 +1,14 @@
+name: Feedback Moderation
+technical_name: "feedback_moderation"
+version: "1.0.0"
+category: Moderation
+summary: Gestor de sugerencias y moderación de comentarios.
+depends:
+  - core
+  - ui
+data:
+  - data/groups.yml       # configuración de grupos de usuarios
+  - data/acl_rules.yml    # políticas de acceso con filtros por estado
+  - data/ui_modules.yml   # registro del módulo en el sistema
+  - views/views.yml       # definición de formularios y listas
+  - views/menu.yml        # estructura de menús y acciones disponibles

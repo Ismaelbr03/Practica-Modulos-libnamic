@@ -1,0 +1,12 @@
+# Módulo funcional de feedback y moderación.
+# Permite a usuarios públicos enviar sugerencias y comentarios,
+# y a los moderadores revisar, publicar, rechazar o fusionar contenido.
+- model: ui.uimodule
+  ext_id: ui_module_feedback_moderation
+  fields:
+    slug: feedback-moderation
+    name: "Feedback & Moderation"
+    technical_name: "feedback_moderation"
+    icon: "mdi-message-alert"
+    version: "1.0.0"
+    description: "Sistema de gestión de feedback con flujo de moderación y publicación controlada."

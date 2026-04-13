@@ -1,0 +1,16 @@
+# Registro del módulo en la interfaz de usuario
+
+- model: ui.uimodule
+  ext_id: ui_module_community_events
+  fields:
+    slug: community-events
+    name: "Eventos"
+    technical_name: "community_events"
+    icon: "mdi-calendar-star"
+    version: "1.1.0"
+    description: >
+      Módulo para la gestión de eventos de la comunidad,
+      incluyendo sesiones, asistentes e inscripciones.
+    # Define la entrada visible en la UI del sistema.
+    # Este registro controla cómo se presenta el módulo:
+    # nombre, icono, versión y descripción funcional.

@@ -1,0 +1,56 @@
+# Acceso completo a todos los modelos del módulo
+- model: core.aclrule
+  ext_id: feedback_acl_moderator_all
+  fields:
+    group_id.ext_id: feedback_group_moderator
+    model_key: "feedback_moderation.*"
+    perm_read: true
+    perm_create: true
+    perm_write: true
+    perm_delete: true
+
+# Permitir crear nuevas sugerencias
+- model: core.aclrule
+  ext_id: feedback_acl_viewer_create_suggestion
+  fields:
+    group_id.ext_id: feedback_group_viewer
+    model_key: "feedback_moderation.suggestion"
+    perm_create: true
+
+# Permitir crear comentarios en sugerencias
+- model: core.aclrule
+  ext_id: feedback_acl_viewer_create_comment
+  fields:
+    group_id.ext_id: feedback_group_viewer
+    model_key: "feedback_moderation.comment"
+    perm_create: true
+
+# Solo pueden leer sugerencias que estén publicadas y visibles
+- model: core.aclrule
+  ext_id: feedback_acl_viewer_read_suggestion
+  fields:
+    group_id.ext_id: feedback_group_viewer
+    model_key: "feedback_moderation.suggestion"
+    perm_read: true
+    domain:
+      - { field: "status", operator: "=", value: "published" }
+      - { field: "is_public", operator: "=", value: true }
+
+# Solo pueden leer comentarios publicados y públicos
+- model: core.aclrule
+  ext_id: feedback_acl_viewer_read_comment
+  fields:
+    group_id.ext_id: feedback_group_viewer
+    model_key: "feedback_moderation.comment"
+    perm_read: true
+    domain:
+      - { field: "status", operator: "=", value: "published" }
+      - { field: "is_public", operator: "=", value: true }
+
+# Permitir leer las etiquetas para poder seleccionarlas en formularios
+- model: core.aclrule
+  ext_id: feedback_acl_viewer_read_tag
+  fields:
+    group_id.ext_id: feedback_group_viewer
+    model_key: "feedback_moderation.tag"
+    perm_read: true

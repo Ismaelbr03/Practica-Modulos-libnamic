@@ -1,0 +1,47 @@
+# Reglas de acceso para el módulo Community Events
+
+# 1. Acceso completo para el equipo interno (staff)
+- model: core.aclrule
+  ext_id: acl_events_staff_full_access
+  fields:
+    group_id.ext_id: community_events_group_staff
+    model_key: "community_events.*"
+    perm_read: true
+    perm_create: true
+    perm_write: true
+    perm_delete: true
+    # Permite al staff gestionar cualquier entidad del módulo:
+    # eventos, sesiones e inscripciones sin restricciones
+
+# 2. Lectura de eventos visibles para usuarios públicos
+- model: core.aclrule
+  ext_id: acl_events_public_read_event
+  fields:
+    group_id.ext_id: community_events_group_viewer
+    model_key: "community_events.event"
+    perm_read: true
+    domain:
+      - { field: "status", operator: "=", value: "published" }
+      - { field: "is_public", operator: "=", value: true }
+    # Limita la visibilidad únicamente a eventos publicados
+    # y marcados explícitamente como públicos
+
+# 3. Lectura de sesiones asociadas a eventos
+- model: core.aclrule
+  ext_id: acl_events_public_read_session
+  fields:
+    group_id.ext_id: community_events_group_viewer
+    model_key: "community_events.session"
+    perm_read: true
+    # Permite consultar sesiones (agenda, contenido),
+    # asumiendo que la visibilidad del evento ya actúa como filtro principal
+
+# 4. Creación de inscripciones por parte de usuarios
+- model: core.aclrule
+  ext_id: acl_events_public_create_registration
+  fields:
+    group_id.ext_id: community_events_group_viewer
+    model_key: "community_events.registration"
+    perm_create: true
+    # Habilita el registro en eventos sin requerir permisos adicionales
+    # (flujo abierto de inscripción)

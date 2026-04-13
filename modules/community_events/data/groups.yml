@@ -1,0 +1,17 @@
+# Definición de grupos de usuario para el módulo Community Events
+
+# 1. Grupo interno con control completo del módulo
+- model: core.group
+  ext_id: community_events_group_staff
+  fields:
+    name: "Eventos - Staff"
+    # Usuarios internos responsables de la gestión completa:
+    # creación de eventos, configuración, moderación y control de inscripciones
+
+# 2. Grupo público con acceso limitado
+- model: core.group
+  ext_id: community_events_group_public
+  fields:
+    name: "Eventos - Público"
+    # Usuarios finales que interactúan con el sistema:
+    # pueden consultar eventos y registrarse, sin acceso a gestión interna
