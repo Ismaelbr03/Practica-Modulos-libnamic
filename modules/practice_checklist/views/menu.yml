@@ -1,8 +1,7 @@
-# menu.yml
 - model: ui.menuitem
   ext_id: practice_checklist_menu_root
   fields:
-    title: "Practice"
+    title: "Practice"  # fallback por defecto
     title_i18n_key: "practice_checklist.menu.root"
     icon: mdi-format-list-checks
     color_primary: "#2F5A77"
@@ -12,10 +11,17 @@
   ext_id: practice_checklist_action_checklists
   fields:
     name: "Practice - Checklists"
+    title: "Checklists"  # fallback
+    title_i18n_key: "practice_checklist.menu.checklists"
     route: practice/checklists
     model_key: practice_checklist.checklist
     model_path: "practice_checklist/checklist"
     menu: true
+    context:
+      allowed_group_ext_ids:
+        - practice_checklist_group_reader
+        - practice_checklist_group_manager
+        - core_group_superadmin
     default_multi_read_view_id.ext_id: practice_checklist_view_checklist_list
     default_single_edit_view_id.ext_id: practice_checklist_view_checklist_form
     views.ext_id:
@@ -35,10 +41,17 @@
   ext_id: practice_checklist_action_items
   fields:
     name: "Practice - Items"
+    title: "Items"
+    title_i18n_key: "practice_checklist.menu.items"
     route: practice/checklist-items
     model_key: practice_checklist.checklist_item
     model_path: "practice_checklist/checklist_item"
     menu: true
+    context:
+      allowed_group_ext_ids:
+        - practice_checklist_group_reader
+        - practice_checklist_group_manager
+        - core_group_superadmin
     default_multi_read_view_id.ext_id: practice_checklist_view_item_list
     default_single_edit_view_id.ext_id: practice_checklist_view_item_form
     views.ext_id:

@@ -185,3 +185,18 @@ class PracticeChecklistItem(Base):
         editable=False,
         info={"label": {"es": "Hecho en", "en": "Done at"}},
     )
+
+# El modelo de configuracion de los setting
+# class PracticeChecklistSettings(Base):
+#     __tablename__ = "practice_checklist_settings"
+#     __abstract__ = False
+#     __model__ = "checklist_settings"
+
+#     auto_close_when_all_done = field(
+#         Boolean,
+#         required=True,
+#         public=True,
+#         editable=True,
+#         default=False,
+#         info={"label": {"es": "Cierre automático", "en": "Auto close"}},
+#     )
